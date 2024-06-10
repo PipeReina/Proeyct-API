@@ -4,7 +4,7 @@ import { OkPacket, RowDataPacket } from "mysql2";
 
 
 export const create = (profesores: Profesor, callback: Function)=>{
-    const queryString = 'INSERT INTO profesores (id_p, profesion,nom_p, dir_p, tel_p) VALUES ( ?, ?, ?, ?, ?)';
+    const queryString = 'INSERT INTO profesores (id_p, profesion,nom_p, dir_p, tel_p, est_p) VALUES ( ?, ?, ?, ?, ?, ?)';
 
     db.query(
         queryString,
@@ -18,4 +18,17 @@ export const create = (profesores: Profesor, callback: Function)=>{
 
         }
     )
-}
+};
+
+export const getProf = (callback: Function) => {
+    const queryString = 'SELECT * FROM profesores';
+  
+    db.query(queryString, (err, result) => {
+      if (err) {
+        callback(err);
+        return;
+      }
+      const estudDatos = <Profesor[]>result;
+      callback(null, estudDatos);
+    });
+  };

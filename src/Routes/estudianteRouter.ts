@@ -21,5 +21,15 @@ estudianteRouter.post('/', async (req: Request, res:Response)=>{
 
 });
 
+estudianteRouter.get('/', (req: Request, res: Response) => {
+    estudianteController.getStudents((err: Error, Estudiante: Estudiante[]) => {
+      if (err) {
+        return res.status(500).json({ message: err.message });
+      }
+  
+      res.status(200).json(Estudiante);
+    });
+  });
 
+  
 export{estudianteRouter};

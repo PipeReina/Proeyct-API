@@ -5,7 +5,7 @@ import { Request, Response } from 'express';
 
 
 export const create = (estudiante: Estudiante, callback: Function)=>{
-    const queryString = 'INSERT INTO estudiantes (cod_e, nom_e, dir_e, tel_e, fech_nac) VALUES ( ?, ?, ?, ?, ?)';
+    const queryString = 'INSERT INTO estudiantes (cod_e, nom_e, dir_e, tel_e, fech_nac, est_e) VALUES ( ?, ?, ?, ?, ?, ?)';
 
     db.query(
         queryString,
@@ -20,3 +20,16 @@ export const create = (estudiante: Estudiante, callback: Function)=>{
         }
     )
 }
+export const getStudents = (callback: Function) => {
+    const queryString = 'SELECT * FROM estudiantes';
+  
+    db.query(queryString, (err, result) => {
+      if (err) {
+        callback(err);
+        return;
+      }
+      const estudDatos = <Estudiante[]>result;
+      callback(null, estudDatos);
+    });
+  };
+

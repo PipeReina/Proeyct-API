@@ -50,3 +50,11 @@ estudianteRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, funct
         res.status(201).json({ 'estudId': estudID });
     });
 }));
+estudianteRouter.get('/', (req, res) => {
+    estudianteController.getStudents((err, Estudiante) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json(Estudiante);
+    });
+});

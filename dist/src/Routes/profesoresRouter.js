@@ -50,3 +50,11 @@ profesorRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(201).json({ 'profId': profID });
     });
 }));
+profesorRouter.get('/', (req, res) => {
+    profesorController.getProf((err, Profesor) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json(Profesor);
+    });
+});
