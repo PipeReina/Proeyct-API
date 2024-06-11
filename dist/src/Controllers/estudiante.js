@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.update = exports.getStudents = exports.create = void 0;
+exports.updateEstado = exports.update = exports.getStudents = exports.create = void 0;
 const db_1 = require("../../db");
 const create = (estudiante, callback) => {
     const queryString = 'INSERT INTO estudiantes (cod_e, nom_e, dir_e, tel_e, fech_nac, est_e) VALUES ( ?, ?, ?, ?, ?, ?)';
@@ -40,3 +40,16 @@ const update = (cod_e, estudiante, callback) => {
     });
 };
 exports.update = update;
+const updateEstado = (cod_e, est_e, callback) => {
+    const queryString = `
+        UPDATE estudiantes SET est_e = ? WHERE estudiantes.cod_e= ? 
+    `;
+    db_1.db.query(queryString, [est_e, cod_e], (err, result) => {
+        if (err) {
+            callback(err); // Si hay un error, se llama al callback con el error
+        }
+        const affectedRows = result.affectedRows; // Obtiene el número de filas afectadas por la operación
+        callback(null, affectedRows); // Se llama al callback con null como primer argumento (sin error) y el número de filas afectadas como segundo argumento
+    });
+};
+exports.updateEstado = updateEstado;

@@ -50,4 +50,24 @@ estudianteRouter.get('/', (req: Request, res: Response) => {
     });
 });
 
+
+estudianteRouter.put('/:cod_e/estado', async (req: Request, res: Response) => {
+    const cod_e = parseInt(req.params.cod_e); 
+    const { est_e } = req.body; 
+
+    console.log(est_e);
+
+    estudianteController.updateEstado(cod_e, est_e, (err: Error, affectedRows: number) => {
+        if (err) { 
+            return res.status(500).json({ 'message': err.message });
+        }
+
+        if (affectedRows === 0) { 
+            return res.status(404).json({ 'message': 'Estudiante no encontrado' });
+        }
+
+        res.status(200).json({ 'message': 'Estado del estudiante actualizado' });
+    });
+});
+
 export{estudianteRouter};

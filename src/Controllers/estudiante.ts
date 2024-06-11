@@ -53,3 +53,20 @@ export const getStudents = (callback: Function) => {
         }
     );
 };
+export const updateEstado = (cod_e: number, est_e: boolean, callback: Function) => {
+    const queryString = `
+        UPDATE estudiantes SET est_e = ? WHERE estudiantes.cod_e= ? 
+    `;
+
+    db.query(
+        queryString,
+        [est_e, cod_e],
+        (err, result) => {
+            if (err) {
+                callback(err); // Si hay un error, se llama al callback con el error
+            }
+            const affectedRows = (<OkPacket>result).affectedRows; // Obtiene el número de filas afectadas por la operación
+            callback(null, affectedRows); // Se llama al callback con null como primer argumento (sin error) y el número de filas afectadas como segundo argumento
+        }
+    );
+};
