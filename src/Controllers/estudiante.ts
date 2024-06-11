@@ -33,3 +33,23 @@ export const getStudents = (callback: Function) => {
     });
   };
 
+
+  export const update = (cod_e: number, estudiante: Estudiante, callback: Function) => {
+    const queryString = `
+        UPDATE estudiantes 
+        SET nom_e = ?, dir_e = ?, tel_e = ?, fech_nac = ?, est_e = ?
+        WHERE cod_e = ?
+    `;
+
+    db.query(
+        queryString,
+        [estudiante.nom_e, estudiante.dir_e, estudiante.tel_e, estudiante.fech_nac, estudiante.est_e, cod_e],
+        (err, result) => {
+            if (err) {
+                callback(err);
+            }
+            const affectedRows = (<OkPacket>result).affectedRows;
+            callback(null, affectedRows);
+        }
+    );
+};

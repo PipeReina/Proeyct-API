@@ -58,3 +58,17 @@ profesorRouter.get('/', (req, res) => {
         res.status(200).json(Profesor);
     });
 });
+profesorRouter.put('/:id_p', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id_p = parseInt(req.params.id_p);
+    const updatedProfesor = req.body;
+    console.log(updatedProfesor);
+    profesorController.update(id_p, updatedProfesor, (err, affectedRows) => {
+        if (err) {
+            return res.status(500).json({ 'message': err.message });
+        }
+        if (affectedRows === 0) {
+            return res.status(404).json({ 'message': 'Profesor no encontrado' });
+        }
+        res.status(200).json({ 'message': 'Profesor actualizado' });
+    });
+}));

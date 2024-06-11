@@ -32,3 +32,23 @@ export const getProf = (callback: Function) => {
       callback(null, estudDatos);
     });
   };
+
+  export const update = (id_p: number, profesor: Profesor, callback: Function) => {
+    const queryString = `
+        UPDATE profesores 
+        SET profesion = ?, nom_p = ?, dir_p = ?, tel_p = ?, est_p = ?
+        WHERE id_p= ?
+    `;
+
+    db.query(
+        queryString,
+        [profesor.profesion, profesor.nom_p, profesor.dir_p, profesor.tel_p, profesor.est_p, id_p],
+        (err, result) => {
+            if (err) {
+                callback(err);
+            }
+            const numRowAfec = (<OkPacket>result).affectedRows;
+            callback(null, numRowAfec);
+        }
+    );
+};
