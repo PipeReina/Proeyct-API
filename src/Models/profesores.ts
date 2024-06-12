@@ -4,5 +4,6 @@ export interface Profesor{
     nom_p: String;
     dir_p: String;
     tel_p: String;
+    tipo_u:String;
     est_p: Boolean;
 }

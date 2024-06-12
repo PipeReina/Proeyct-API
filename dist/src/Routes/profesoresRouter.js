@@ -72,3 +72,11 @@ profesorRouter.put('/:id_p', (req, res) => __awaiter(void 0, void 0, void 0, fun
         res.status(200).json({ 'message': 'Profesor actualizado' });
     });
 }));
+profesorRouter.get('/users', (req, res) => {
+    profesorController.getUsuarios((err, Profesor) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json(Profesor);
+    });
+});

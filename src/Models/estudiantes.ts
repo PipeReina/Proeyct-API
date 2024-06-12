@@ -4,5 +4,6 @@ export interface Estudiante{
     dir_e: String;
     tel_e: String;
     fech_nac: Date;
+    tipo_u:String;
     est_e: Boolean;
 }

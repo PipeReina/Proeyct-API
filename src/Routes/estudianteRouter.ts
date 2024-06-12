@@ -70,4 +70,14 @@ estudianteRouter.put('/:cod_e/estado', async (req: Request, res: Response) => {
     });
 });
 
-export{estudianteRouter};
+estudianteRouter.get('/users', (req: Request, res: Response) => {
+  estudianteController.getUsuarios((err: Error, usuarios: Estudiante[]) => {
+    if (err) {
+      return res.status(500).json({ message: err.message });
+    }
+
+    res.status(200).json(usuarios);
+  });
+});
+
+export { estudianteRouter };

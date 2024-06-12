@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos del Estudiante</title>
+</head>
+<body>
+    <h1>Datos del Estudiante</h1>
+    <form id="estudianteForm">
+        <label for="cod_e">Código del Estudiante:</label>
+        <input type="number" id="cod_e" name="cod_e" required>
+        <button type="submit">Buscar</button>
+    </form>
+    <div id="estudianteDatos"></div>
+
+    <script>
+        document.getElementById('estudianteForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const cod_e = document.getElementById('cod_e').value;
+
+            fetch(`/estudiantes/${cod_e}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Estudiante no encontrado');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const estudianteDatos = document.getElementById('estudianteDatos');
+                    estudianteDatos.innerHTML = `
+                        <p>Código: ${data.cod_e}</p>
+                        <p>Nombre: ${data.nom_e}</p>
+                        <p>Dirección: ${data.dir_e}</p>
+                        <p>Teléfono: ${data.tel_e}</p>
+                        <p>Fecha de Nacimiento: ${data.fech_nac}</p>
+                        <p>Estado: ${data.est_e ? 'Activo' : 'Inactivo'}</p>
+                    `;
+                })
+                .catch(error => {
+                    const estudianteDatos = document.getElementById('estudianteDatos');
+                    estudianteDatos.innerHTML = `<p>${error.message}</p>`;
+                });
+        });
+    </script>
+</body>
+</html>

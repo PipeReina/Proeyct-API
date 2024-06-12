@@ -75,6 +75,7 @@ estudianteRouter.put('/:cod_e', (req, res) => __awaiter(void 0, void 0, void 0, 
 estudianteRouter.put('/:cod_e/estado', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const cod_e = parseInt(req.params.cod_e);
     const { est_e } = req.body;
+    console.log(est_e);
     estudianteController.updateEstado(cod_e, est_e, (err, affectedRows) => {
         if (err) {
             return res.status(500).json({ 'message': err.message });
@@ -85,3 +86,11 @@ estudianteRouter.put('/:cod_e/estado', (req, res) => __awaiter(void 0, void 0, v
         res.status(200).json({ 'message': 'Estado del estudiante actualizado' });
     });
 }));
+estudianteRouter.get('/users', (req, res) => {
+    estudianteController.getUsuarios((err, usuarios) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json(usuarios);
+    });
+});

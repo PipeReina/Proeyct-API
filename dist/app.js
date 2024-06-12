@@ -39,10 +39,6 @@ app.use((0, cors_1.default)());
 app.use(bodyParse.json());
 app.use('/estudiantes', estudianteRouter_1.estudianteRouter);
 app.use('/profesores', profesoresRouter_1.profesorRouter);
-app.get('/', (req, res) => {
-    res.type('text/plain');
-    res.status(200).send('Welcome!');
-});
 db_1.db.connect((err) => {
     if (err) {
         console.log('Databases Connection Error');
