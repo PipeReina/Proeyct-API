@@ -1,6 +1,6 @@
 import express, {Request , Response} from "express";
 import * as asignaturaController from "../Controllers/asignatura";
-import { asignatura} from "../Models/asignaturas";
+import { Asignatura } from "../Models/asignaturas";
 import { error } from "console";
 
 const asignaturaRouter = express.Router();
@@ -10,7 +10,7 @@ asignaturaRouter.post('/', async (req: Request, res:Response)=>{
     
     console.log(newAsignatura);
 
-    eController.create(newAsignatura, (err:Error, asigID: number)=>{
+    asignaturaController.create(newAsignatura, (err:Error, asigID: number)=>{
         
         if(err){
             return res.status(500).json({'message': err.message});
@@ -32,7 +32,7 @@ asignaturaRouter.get('/', (req: Request, res: Response) => {
   });
 
   asignaturaRouter.put('/:cod_a', async (req: Request, res: Response) => {
-    const cod_e = parseInt(req.params.cod_e);
+    const cod_a = parseInt(req.params.cod_a);
     const updatedAsignatura: Asignatura = req.body;
 
     console.log(updatedAsignatura);

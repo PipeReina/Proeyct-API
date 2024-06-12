@@ -1,4 +1,4 @@
-export interface asignaturas{
+export interface Asignatura{
     cod_a: number;
     nom_a: String;
     creditos: number;

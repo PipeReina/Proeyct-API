@@ -1,10 +1,10 @@
-import { asignaturas} from "../Models/asignaturas";
+import { Asignatura } from "../Models/asignaturas";
 import { db } from "../../db";
 import { OkPacket, RowDataPacket } from "mysql2";
 import { Request, Response } from 'express';
 
 
-export const create = (asignaturas: asignaturas, callback: Function)=>{
+export const create = (asignaturas: Asignatura, callback: Function)=>{
     const queryString = 'INSERT INTO asignaturas (cod_a, nom_a, creditos, int_h) VALUES ( ?, ?, ?, ?)';
 
     db.query(
@@ -20,7 +20,7 @@ export const create = (asignaturas: asignaturas, callback: Function)=>{
         }
     )
 }
-export const getasignaturas = (callback: Function) => {
+export const getAsignaturas = (callback: Function) => {
     const queryString = 'SELECT * FROM asignaturas';
   
     db.query(queryString, (err, result) => {
@@ -28,13 +28,13 @@ export const getasignaturas = (callback: Function) => {
         callback(err);
         return;
       }
-      const asigDatos = <asignaturas[]>result;
+      const asigDatos = <Asignatura[]>result;
       callback(null, asigDatos);
     });
   };
 
 
-  export const update = (cod_a: number, asignaturas: asignaturas, callback: Function) => {
+  export const update = (cod_a: number, asignaturas: Asignatura, callback: Function) => {
     const queryString = `
         UPDATE asignaturass 
         SET cod_a = ?, nom_a = ?, creditos = ?, int_h = ? 
