@@ -5,11 +5,11 @@ import { Request, Response } from 'express';
 
 
 export const create = (inscribe: inscribe, callback: Function)=>{
-    const queryString = 'INSERT INTO inscribe (id_p, cod_a, grupo, cod_e,n1,n2,n3) VALUES ( ?, ?, ?, ?, ?, ?, ?))';
+    const queryString = 'INSERT INTO inscribe (id_p, nombre_p, cod_a, nombre_a, grupo, cod_e, nombre_e,n1,n2,n3) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?))';
 
     db.query(
         queryString,
-        [inscribe.id_p, inscribe.cod_a, inscribe.grupo, inscribe.cod_e, inscribe.n1, inscribe.n2, inscribe.n3],
+        [inscribe.id_p, inscribe.nombre_p, inscribe.cod_a, inscribe.nombre_a, inscribe.grupo, inscribe.cod_e, inscribe.nombre_e, inscribe.n1, inscribe.n2, inscribe.n3],
         (err, result)=>{
             if (err){
                 callback(err);
@@ -37,13 +37,12 @@ export const getinscribe = (callback: Function) => {
   export const update = (id_p: number, inscribe: inscribe, callback: Function) => {
     const queryString = `
         UPDATE inscribes
-        SET id_p = ? , cod_a = ?, grupo = ?, cod_e = ?,n1 = ?,n2 = ?,n3 = ?
-        WHERE id_p = ?
-    `;
+        SET n1 = ?, n2 = ?, n3 = ?
+        WHERE id_p = ? AND cod_a = ? AND cod_e = ? AND grupo = ? AND nom_p = ?;`;
 
     db.query(
         queryString,
-        [inscribe.id_p, inscribe.cod_a, inscribe.grupo, inscribe.cod_e, inscribe.n1, inscribe.n2, inscribe.n3],
+        [inscribe.id_p, inscribe.nombre_p, inscribe.cod_a, inscribe.nombre_a, inscribe.grupo, inscribe.cod_e, inscribe.nombre_e, inscribe.n1, inscribe.n2, inscribe.n3],
         (err, result) => {
             if (err) {
                 callback(err);
