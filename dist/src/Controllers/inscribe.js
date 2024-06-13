@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.update = exports.getinscribe = exports.create = void 0;
+exports.getAsigEst = exports.getEstAsigGRu = exports.getAsigProfe = exports.getProfeAsig = exports.update = exports.getinscribe = exports.create = void 0;
 const db_1 = require("../../db");
 const create = (inscribe, callback) => {
     const queryString = 'INSERT INTO inscribe (id_p, nombre_p, cod_a, nombre_a, grupo, cod_e, nombre_e,n1,n2,n3) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?))';
@@ -39,19 +39,62 @@ const update = (id_p, inscribe, callback) => {
     });
 };
 exports.update = update;
-// export const updateEstado = (cod_e: number, est_e: boolean, callback: Function) => {
-//     const queryString = `
-//         UPDATE inscribes SET est_e = ? WHERE inscribes.cod_e= ? 
-//     `;
-//     db.query(
-//         queryString,
-//         [est_e, cod_e],
-//         (err, result) => {
-//             if (err) {
-//                 callback(err); // Si hay un error, se llama al callback con el error
-//             }
-//             const affectedRows = (<OkPacket>result).affectedRows; // Obtiene el número de filas afectadas por la operación
-//             callback(null, affectedRows); // Se llama al callback con null como primer argumento (sin error) y el número de filas afectadas como segundo argumento
-//         }
-//     );
-// };
+///////////////////////////////////////////////////////////  Consulta asignaturas por profesor y viceversa a través de API
+const getProfeAsig = (cod_a, callback) => {
+    const queryString = `
+        SELECT id_p, nom_p, cod_a, nom_a FROM inscribe WHERE cod_a = ?;
+    `;
+    db_1.db.query(queryString, [cod_a], (err, result) => {
+        if (err) {
+            callback(err);
+            return;
+        }
+        const asigDatos = result;
+        callback(null, asigDatos);
+    });
+};
+exports.getProfeAsig = getProfeAsig;
+const getAsigProfe = (id_p, callback) => {
+    const queryString = `
+            SELECT  cod_a, nom_a, id_p, nom_p FROM inscribe WHERE id_p = ? ;
+        `;
+    db_1.db.query(queryString, [id_p], (err, result) => {
+        if (err) {
+            callback(err);
+            return;
+        }
+        const asigDatos = result;
+        callback(null, asigDatos);
+    });
+};
+exports.getAsigProfe = getAsigProfe;
+//////////////////////////////////////////////////////////////////Lista de estudiantes por asignatura y grupo con sus notas a través de API
+const getEstAsigGRu = (cod_a, grupo, callback) => {
+    const queryString = `
+        SELECT cod_e, nom_e, n1, n2, n3 FROM inscribe WHERE cod_a= ? and grupo= ?;
+    `;
+    db_1.db.query(queryString, [cod_a, grupo], (err, result) => {
+        if (err) {
+            callback(err);
+            return;
+        }
+        const asigDatos = result;
+        callback(null, asigDatos);
+    });
+};
+exports.getEstAsigGRu = getEstAsigGRu;
+//////////////////////////////////////////////////////////////////Lista de estudiantes por asignatura y grupo con sus notas a través de API
+const getAsigEst = (cod_e, callback) => {
+    const queryString = `
+        SELECT cod_a, nom_a, n1, n2, n3 FROM inscribe WHERE cod_e= ? 
+    `;
+    db_1.db.query(queryString, [cod_e], (err, result) => {
+        if (err) {
+            callback(err);
+            return;
+        }
+        const asigDatos = result;
+        callback(null, asigDatos);
+    });
+};
+exports.getAsigEst = getAsigEst;

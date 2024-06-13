@@ -58,33 +58,18 @@ asignaturaRouter.get('/', (req, res) => {
         res.status(200).json(Asignatura);
     });
 });
-asignaturaRouter.put('/:cod_a', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const cod_a = parseInt(req.params.cod_a);
-    const updatedAsignatura = req.body;
-    console.log(updatedAsignatura);
-    asignaturaController.update(cod_a, updatedAsignatura, (err, affectedRows) => {
-        if (err) {
-            return res.status(500).json({ 'message': err.message });
-        }
-        if (affectedRows === 0) {
-            return res.status(404).json({ 'message': 'Asignatura no encontrada' });
-        }
-        res.status(200).json({ 'message': 'Asignatura actualizada' });
-    });
-}));
-///////////////////////////////////////////////////////////Update asignaturas impartidas (grupo, horario) a traves de API
-asignaturaRouter.put('/:grupo/:horario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const grupo = req.params.grupo;
-    const horario = req.params.horario;
-    const updatedAsignatura = req.body;
-    asignaturaController.updateAsignatura(grupo, horario, updatedAsignatura, (err, affectedRows) => {
-        if (err) {
-            return res.status(500).json({ message: err.message });
-        }
-        if (affectedRows === 0) {
-            return res.status(404).json({ message: 'Asignatura no encontrada' });
-        }
-        res.status(200).json({ message: 'Asignatura actualizada' });
-    });
-}));
+//   asignaturaRouter.put('/:cod_a', async (req: Request, res: Response) => {
+//     const cod_a = parseInt(req.params.cod_a);
+//     const updatedAsignatura: Asignatura = req.body;
+//     console.log(updatedAsignatura);
+//     asignaturaController.update(cod_a, updatedAsignatura, (err: Error, affectedRows: number) => {
+//         if (err) {
+//             return res.status(500).json({ 'message': err.message });
+//         }
+//         if (affectedRows === 0) {
+//             return res.status(404).json({ 'message': 'Asignatura no encontrada' });
+//         }
+//         res.status(200).json({ 'message': 'Asignatura actualizada' });
+//     });
+// });
 exports.default = asignaturaRouter;

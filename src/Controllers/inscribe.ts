@@ -5,11 +5,11 @@ import { Request, Response } from 'express';
 
 
 export const create = (inscribe: inscribe, callback: Function)=>{
-    const queryString = 'INSERT INTO inscribe (id_p, nombre_p, cod_a, nombre_a, grupo, cod_e, nombre_e,n1,n2,n3) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?))';
+    const queryString = 'INSERT INTO inscribe (id_p, nom_p, cod_a, nom_a, grupo, cod_e, nomb_e, n1, n2, n3) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
     db.query(
         queryString,
-        [inscribe.id_p, inscribe.nombre_p, inscribe.cod_a, inscribe.nombre_a, inscribe.grupo, inscribe.cod_e, inscribe.nombre_e, inscribe.n1, inscribe.n2, inscribe.n3],
+        [inscribe.id_p, inscribe.nom_p, inscribe.cod_a, inscribe.nom_a, inscribe.grupo, inscribe.cod_e, inscribe.nom_e, inscribe.n1, inscribe.n2, inscribe.n3],
         (err, result)=>{
             if (err){
                 callback(err);
@@ -42,7 +42,7 @@ export const getinscribe = (callback: Function) => {
 
     db.query(
         queryString,
-        [inscribe.id_p, inscribe.nombre_p, inscribe.cod_a, inscribe.nombre_a, inscribe.grupo, inscribe.cod_e, inscribe.nombre_e, inscribe.n1, inscribe.n2, inscribe.n3],
+        [inscribe.id_p, inscribe.nom_p, inscribe.cod_a, inscribe.nom_a, inscribe.grupo, inscribe.cod_e, inscribe.nom_e, inscribe.n1, inscribe.n2, inscribe.n3],
         (err, result) => {
             if (err) {
                 callback(err);
@@ -52,20 +52,81 @@ export const getinscribe = (callback: Function) => {
         }
     );
 };
-// export const updateEstado = (cod_e: number, est_e: boolean, callback: Function) => {
-//     const queryString = `
-//         UPDATE inscribes SET est_e = ? WHERE inscribes.cod_e= ? 
-//     `;
 
-//     db.query(
-//         queryString,
-//         [est_e, cod_e],
-//         (err, result) => {
-//             if (err) {
-//                 callback(err); // Si hay un error, se llama al callback con el error
-//             }
-//             const affectedRows = (<OkPacket>result).affectedRows; // Obtiene el número de filas afectadas por la operación
-//             callback(null, affectedRows); // Se llama al callback con null como primer argumento (sin error) y el número de filas afectadas como segundo argumento
-//         }
-//     );
-// };
+///////////////////////////////////////////////////////////  Consulta asignaturas por profesor y viceversa a través de API
+
+export const getProfeAsig = (cod_a: number, callback: Function) => {
+    const queryString = `
+        SELECT id_p, nom_p, cod_a, nom_a FROM inscribe WHERE cod_a = ?;
+    `;
+
+    db.query(queryString, 
+        [cod_a],
+        (err, result) => {
+        if (err) {
+          callback(err);
+          return;
+        }
+        const asigDatos = <inscribe[]>result;
+        callback(null, asigDatos);
+      });
+    };
+
+    export const getAsigProfe = (id_p: number, callback: Function) => {
+        const queryString = `
+            SELECT  cod_a, nom_a, id_p, nom_p FROM inscribe WHERE id_p = ? ;
+        `;
+    
+        db.query(queryString, 
+            [id_p],
+            (err, result) => {
+            if (err) {
+              callback(err);
+              return;
+            }
+            const asigDatos = <inscribe[]>result;
+            callback(null, asigDatos);
+          });
+        };
+
+
+//////////////////////////////////////////////////////////////////Lista de estudiantes por asignatura y grupo con sus notas a través de API
+
+export const getEstAsigGRu= (cod_a: number,grupo: number, callback: Function) => {
+    const queryString = `
+        SELECT cod_e, nom_e, n1, n2, n3 FROM inscribe WHERE cod_a= ? and grupo= ?;
+    `;
+
+    db.query(queryString, 
+        [cod_a,grupo],
+        (err, result) => {
+        if (err) {
+          callback(err);
+          return;
+        }
+        const asigDatos = <inscribe[]>result;
+        callback(null, asigDatos);
+      });
+    };
+//////////////////////////////////////////////////////////////////Lista de estudiantes por asignatura y grupo con sus notas a través de API
+
+export const getAsigEst= (cod_e: number, callback: Function) => {
+    const queryString = `
+        SELECT cod_a, nom_a, n1, n2, n3 FROM inscribe WHERE cod_e= ? 
+    `;
+
+    db.query(queryString, 
+        [cod_e],
+        (err, result) => {
+        if (err) {
+          callback(err);
+          return;
+        }
+        const asigDatos = <inscribe[]>result;
+        callback(null, asigDatos);
+      });
+    };
+
+
+
+

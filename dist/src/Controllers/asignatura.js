@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateAsignatura = exports.update = exports.getAsignaturas = exports.create = void 0;
+exports.getAsignaturas = exports.create = void 0;
 const db_1 = require("../../db");
 const create = (asignaturas, callback) => {
     const queryString = 'INSERT INTO asignaturas (cod_a, nom_a, creditos, int_h, grupos, horario) VALUES ( ?, ?, ?, ?, ?, ?)';
@@ -25,51 +25,22 @@ const getAsignaturas = (callback) => {
     });
 };
 exports.getAsignaturas = getAsignaturas;
-const update = (cod_a, asignaturas, callback) => {
-    const queryString = `
-        UPDATE asignaturas 
-        SET cod_a = ?, nom_a = ?, creditos = ?, int_h = ?, grupo=?, horario=? 
-        WHERE cod_a = ?
-    `;
-    db_1.db.query(queryString, [asignaturas.nom_a, asignaturas.creditos, asignaturas.int_h], (err, result) => {
-        if (err) {
-            callback(err);
-        }
-        const affectedRows = result.affectedRows;
-        callback(null, affectedRows);
-    });
-};
-exports.update = update;
-///////////////////////////////////////////////////////////Update asignaturas impartidas (grupo, horario) a traves de API
-const updateAsignatura = (grupo, horario, asignatura, callback) => {
-    const queryString = `
-        UPDATE asignaturas
-        SET nom_a = ?
-        WHERE grupo = ? AND horario = ?;
-    `;
-    db_1.db.query(queryString, [asignatura.nom_a, grupo, horario], (err, result) => {
-        if (err) {
-            callback(err);
-            return;
-        }
-        const affectedRows = result.affectedRows;
-        callback(null, affectedRows);
-    });
-};
-exports.updateAsignatura = updateAsignatura;
-// export const updateEstado = (cod_e: number, est_e: boolean, callback: Function) => {
+//   export const update = (cod_a: number, asignaturas: Asignatura, callback: Function) => {
 //     const queryString = `
-//         UPDATE asignaturass SET est_e = ? WHERE asignaturass.cod_e= ? 
+//         SET FOREIGN_KEY_CHECKS = 0;
+//         UPDATE estudiantes SET nom_a = ?, creditos = ?, tel_e = ?, int_h = ?, grupo = ?, horarios = ? WHERE cod_a = ?;
+//         UPDATE inscribe SET nom_a = ?, grupo = ? WHERE cod_e = ?;
+//         SET FOREIGN_KEY_CHECKS = 1;
 //     `;
 //     db.query(
 //         queryString,
-//         [est_e, cod_e],
+//         [asignaturas.nom_a, asignaturas.creditos, asignaturas.int_h, asignaturas.grupo, asignaturas.horario,cod_a,asignaturas.nom_a, asignaturas.grupo,cod_a],
 //         (err, result) => {
 //             if (err) {
-//                 callback(err); // Si hay un error, se llama al callback con el error
+//                 callback(err);
 //             }
-//             const affectedRows = (<OkPacket>result).affectedRows; // Obtiene el número de filas afectadas por la operación
-//             callback(null, affectedRows); // Se llama al callback con null como primer argumento (sin error) y el número de filas afectadas como segundo argumento
+//             const affectedRows = (<OkPacket>result).affectedRows;
+//             callback(null, affectedRows);
 //         }
 //     );
 // };

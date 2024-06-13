@@ -31,44 +31,27 @@ asignaturaRouter.get('/', (req: Request, res: Response) => {
     });
   });
 
-  asignaturaRouter.put('/:cod_a', async (req: Request, res: Response) => {
-    const cod_a = parseInt(req.params.cod_a);
-    const updatedAsignatura: Asignatura = req.body;
+//   asignaturaRouter.put('/:cod_a', async (req: Request, res: Response) => {
+//     const cod_a = parseInt(req.params.cod_a);
+//     const updatedAsignatura: Asignatura = req.body;
 
-    console.log(updatedAsignatura);
+//     console.log(updatedAsignatura);
 
-    asignaturaController.update(cod_a, updatedAsignatura, (err: Error, affectedRows: number) => {
-        if (err) {
-            return res.status(500).json({ 'message': err.message });
-        }
+//     asignaturaController.update(cod_a, updatedAsignatura, (err: Error, affectedRows: number) => {
+//         if (err) {
+//             return res.status(500).json({ 'message': err.message });
+//         }
 
-        if (affectedRows === 0) {
-            return res.status(404).json({ 'message': 'Asignatura no encontrada' });
-        }
+//         if (affectedRows === 0) {
+//             return res.status(404).json({ 'message': 'Asignatura no encontrada' });
+//         }
 
-        res.status(200).json({ 'message': 'Asignatura actualizada' });
-    });
-});
+//         res.status(200).json({ 'message': 'Asignatura actualizada' });
+//     });
+// });
 
-///////////////////////////////////////////////////////////Update asignaturas impartidas (grupo, horario) a traves de API
 
-asignaturaRouter.put('/:grupo/:horario', async (req: Request, res: Response) => {
-    const grupo: string = req.params.grupo;
-    const horario: string = req.params.horario;
-    const updatedAsignatura: Asignatura = req.body;
 
-    asignaturaController.updateAsignatura(grupo, horario, updatedAsignatura, (err: Error | null, affectedRows?: number) => {
-        if (err) {
-            return res.status(500).json({ message: err.message });
-        }
-
-        if (affectedRows === 0) {
-            return res.status(404).json({ message: 'Asignatura no encontrada' });
-        }
-
-        res.status(200).json({ message: 'Asignatura actualizada' });
-    });
-});
 
 export default asignaturaRouter;
 

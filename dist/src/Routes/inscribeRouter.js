@@ -72,3 +72,48 @@ inscribeRouter.put('/:id_p', (req, res) => __awaiter(void 0, void 0, void 0, fun
         res.status(200).json({ 'message': 'inscribe actualizada' });
     });
 }));
+/////////////////////////////////////////////////////////// Consulta asignaturas por profesor y viceversa a través de API
+inscribeRouter.get('/profesores', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const cod_a = parseInt(req.query.cod_a); // Accede al parámetro cod_a desde req.query
+    console.log(cod_a);
+    inscribeController.getProfeAsig(cod_a, (err, inscribe) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json(inscribe);
+    });
+}));
+inscribeRouter.get('/asignatura', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id_p = parseInt(req.query.id_p); // Accede al parámetro cod_a desde req.query
+    console.log(id_p);
+    inscribeController.getAsigProfe(id_p, (err, inscribe) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json(inscribe);
+    });
+}));
+//////////////////////////////////////////////////////////////////Lista de estudiantes por asignatura y grupo con sus notas a través de API
+inscribeRouter.get('/estudiantes', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const cod_a = parseInt(req.query.cod_a);
+    const grupo = parseInt(req.query.grupo);
+    console.log(cod_a);
+    console.log(grupo);
+    inscribeController.getEstAsigGRu(cod_a, grupo, (err, inscribe) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json(inscribe);
+    });
+}));
+//////////////////////////////////////////////////////////////////Lista de estudiantes por asignatura y grupo con sus notas a través de API
+inscribeRouter.get('/asignatura-est', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const cod_e = parseInt(req.query.cod_e);
+    console.log(cod_e);
+    inscribeController.getAsigEst(cod_e, (err, inscribe) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+        res.status(200).json(inscribe);
+    });
+}));
