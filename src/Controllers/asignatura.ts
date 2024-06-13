@@ -5,11 +5,11 @@ import { Request, Response } from 'express';
 
 
 export const create = (asignaturas: Asignatura, callback: Function)=>{
-    const queryString = 'INSERT INTO asignaturas (cod_a, nom_a, creditos, int_h) VALUES ( ?, ?, ?, ?)';
+    const queryString = 'INSERT INTO asignaturas (cod_a, nom_a, creditos, int_h, grupos, horario) VALUES ( ?, ?, ?, ?, ?, ?)';
 
     db.query(
         queryString,
-        [asignaturas.cod_a, asignaturas.nom_a, asignaturas.creditos, asignaturas.int_h],
+        [asignaturas.cod_a, asignaturas.nom_a, asignaturas.creditos, asignaturas.int_h, asignaturas.grupo, asignaturas.horario],
         (err, result)=>{
             if (err){
                 callback(err);
@@ -36,8 +36,8 @@ export const getAsignaturas = (callback: Function) => {
 
   export const update = (cod_a: number, asignaturas: Asignatura, callback: Function) => {
     const queryString = `
-        UPDATE asignaturass 
-        SET cod_a = ?, nom_a = ?, creditos = ?, int_h = ? 
+        UPDATE asignaturas 
+        SET cod_a = ?, nom_a = ?, creditos = ?, int_h = ?, grupo=?, horario=? 
         WHERE cod_a = ?
     `;
 
@@ -53,6 +53,31 @@ export const getAsignaturas = (callback: Function) => {
         }
     );
 };
+
+///////////////////////////////////////////////////////////Update asignaturas impartidas (grupo, horario) a traves de API
+
+export const updateAsignatura = (grupo: string, horario: string, asignatura: Asignatura, callback: Function) => {
+    const queryString = `
+        UPDATE asignaturas
+        SET nom_a = ?
+        WHERE grupo = ? AND horario = ?;
+    `;
+
+    db.query(
+        queryString,
+        [asignatura.nom_a, grupo, horario],
+        (err, result) => {
+            if (err) {
+                callback(err);
+                return;
+            }
+
+            const affectedRows = (<OkPacket>result).affectedRows;
+            callback(null, affectedRows);
+        }
+    );
+};
+
 // export const updateEstado = (cod_e: number, est_e: boolean, callback: Function) => {
 //     const queryString = `
 //         UPDATE asignaturass SET est_e = ? WHERE asignaturass.cod_e= ? 

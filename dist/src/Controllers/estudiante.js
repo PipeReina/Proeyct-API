@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUsuarios = exports.updateEstado = exports.update = exports.getStudents = exports.create = void 0;
 const db_1 = require("../../db");
 const create = (estudiante, callback) => {
-    const queryString = 'INSERT INTO estudiantes (cod_e, nom_e, dir_e, tel_e, fech_nac, tipo_u, est_e) VALUES ( ?, ?, ?, ?, ?, ?, ?)';
-    db_1.db.query(queryString, [estudiante.cod_e, estudiante.nom_e, estudiante.dir_e, estudiante.tel_e, estudiante.fech_nac, estudiante.tipo_u, estudiante.est_e], (err, result) => {
+    const queryString = 'INSERT INTO estudiantes (cod_e, nom_e, dir_e, tel_e, fech_nac, carrera, tipo_u, est_e) VALUES ( ?, ?, ?, ?, ?, ?, ?,?)';
+    db_1.db.query(queryString, [estudiante.cod_e, estudiante.nom_e, estudiante.dir_e, estudiante.tel_e, estudiante.fech_nac, estudiante.carrera, estudiante.tipo_u, estudiante.est_e], (err, result) => {
         if (err) {
             callback(err);
         }
@@ -28,10 +28,10 @@ exports.getStudents = getStudents;
 const update = (cod_e, estudiante, callback) => {
     const queryString = `
         UPDATE estudiantes 
-        SET nom_e = ?, dir_e = ?, tel_e = ?, fech_nac = ?, tipo_u = ?, est_e = ?
+        SET nom_e = ?, dir_e = ?, tel_e = ?, fech_nac = ?, carrera = ?, tipo_u = ?, est_e = ?
         WHERE cod_e = ?
     `;
-    db_1.db.query(queryString, [estudiante.nom_e, estudiante.dir_e, estudiante.tel_e, estudiante.fech_nac, estudiante.tipo_u, estudiante.est_e, cod_e], (err, result) => {
+    db_1.db.query(queryString, [estudiante.nom_e, estudiante.dir_e, estudiante.tel_e, estudiante.fech_nac, estudiante.carrera, estudiante.tipo_u, estudiante.est_e, cod_e], (err, result) => {
         if (err) {
             callback(err);
         }

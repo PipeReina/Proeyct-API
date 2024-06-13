@@ -3,4 +3,6 @@ export interface Asignatura{
     nom_a: String;
     creditos: number;
     int_h: String;
+    grupo: number;
+    horario:String
 }

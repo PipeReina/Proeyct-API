@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.update = exports.getAsignaturas = exports.create = void 0;
+exports.updateAsignatura = exports.update = exports.getAsignaturas = exports.create = void 0;
 const db_1 = require("../../db");
 const create = (asignaturas, callback) => {
-    const queryString = 'INSERT INTO asignaturas (cod_a, nom_a, creditos, int_h) VALUES ( ?, ?, ?, ?)';
-    db_1.db.query(queryString, [asignaturas.cod_a, asignaturas.nom_a, asignaturas.creditos, asignaturas.int_h], (err, result) => {
+    const queryString = 'INSERT INTO asignaturas (cod_a, nom_a, creditos, int_h, grupos, horario) VALUES ( ?, ?, ?, ?, ?, ?)';
+    db_1.db.query(queryString, [asignaturas.cod_a, asignaturas.nom_a, asignaturas.creditos, asignaturas.int_h, asignaturas.grupo, asignaturas.horario], (err, result) => {
         if (err) {
             callback(err);
         }
@@ -27,8 +27,8 @@ const getAsignaturas = (callback) => {
 exports.getAsignaturas = getAsignaturas;
 const update = (cod_a, asignaturas, callback) => {
     const queryString = `
-        UPDATE asignaturass 
-        SET cod_a = ?, nom_a = ?, creditos = ?, int_h = ? 
+        UPDATE asignaturas 
+        SET cod_a = ?, nom_a = ?, creditos = ?, int_h = ?, grupo=?, horario=? 
         WHERE cod_a = ?
     `;
     db_1.db.query(queryString, [asignaturas.nom_a, asignaturas.creditos, asignaturas.int_h], (err, result) => {
@@ -40,6 +40,23 @@ const update = (cod_a, asignaturas, callback) => {
     });
 };
 exports.update = update;
+///////////////////////////////////////////////////////////Update asignaturas impartidas (grupo, horario) a traves de API
+const updateAsignatura = (grupo, horario, asignatura, callback) => {
+    const queryString = `
+        UPDATE asignaturas
+        SET nom_a = ?
+        WHERE grupo = ? AND horario = ?;
+    `;
+    db_1.db.query(queryString, [asignatura.nom_a, grupo, horario], (err, result) => {
+        if (err) {
+            callback(err);
+            return;
+        }
+        const affectedRows = result.affectedRows;
+        callback(null, affectedRows);
+    });
+};
+exports.updateAsignatura = updateAsignatura;
 // export const updateEstado = (cod_e: number, est_e: boolean, callback: Function) => {
 //     const queryString = `
 //         UPDATE asignaturass SET est_e = ? WHERE asignaturass.cod_e= ? 

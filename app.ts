@@ -7,6 +7,8 @@ import {profesorRouter} from "./src/Routes/profesoresRouter";
 import cors from "cors";
 import { error } from "console";
 import path from "path";
+import {asignaturaRouter} from "./src/Routes/asignaturaRouter";
+import { inscribeRouter } from "./src/Routes/inscribeRouter";
 
 const app = express();
 dotenv.config();
@@ -15,6 +17,8 @@ app.use(cors())
 app.use(bodyParse.json());
 app.use('/estudiantes', estudianteRouter);
 app.use('/profesores', profesorRouter);
+app.use('/asignaturas', asignaturaRouter);
+app.use('/inscribe', inscribeRouter);
 
 db.connect((err)=>{
     if(err){

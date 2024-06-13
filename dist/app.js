@@ -33,12 +33,16 @@ const db_1 = require("./db");
 const estudianteRouter_1 = require("./src/Routes/estudianteRouter");
 const profesoresRouter_1 = require("./src/Routes/profesoresRouter");
 const cors_1 = __importDefault(require("cors"));
+const asignaturaRouter_1 = require("./src/Routes/asignaturaRouter");
+const inscribeRouter_1 = require("./src/Routes/inscribeRouter");
 const app = (0, express_1.default)();
 dotenv.config();
 app.use((0, cors_1.default)());
 app.use(bodyParse.json());
 app.use('/estudiantes', estudianteRouter_1.estudianteRouter);
 app.use('/profesores', profesoresRouter_1.profesorRouter);
+app.use('/asignaturas', asignaturaRouter_1.asignaturaRouter);
+app.use('/inscribe', inscribeRouter_1.inscribeRouter);
 db_1.db.connect((err) => {
     if (err) {
         console.log('Databases Connection Error');

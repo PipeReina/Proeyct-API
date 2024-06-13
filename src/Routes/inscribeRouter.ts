@@ -10,7 +10,7 @@ inscribeRouter.post('/', async (req: Request, res:Response)=>{
     
     console.log(newinscribe);
 
-    eController.create(newinscribe, (err:Error, asigID: number)=>{
+    inscribeController.create(newinscribe, (err:Error, asigID: number)=>{
         
         if(err){
             return res.status(500).json({'message': err.message});
@@ -31,7 +31,7 @@ inscribeRouter.get('/', (req: Request, res: Response) => {
   });
 
   inscribeRouter.put('/:id_p', async (req: Request, res: Response) => {
-    const cod_e = parseInt(req.params.cod_e);
+    const id_p = parseInt(req.params.id_p);
     const updatedinscribe: inscribe = req.body;
 
     console.log(updatedinscribe);

@@ -50,6 +50,28 @@ asignaturaRouter.get('/', (req: Request, res: Response) => {
     });
 });
 
+///////////////////////////////////////////////////////////Update asignaturas impartidas (grupo, horario) a traves de API
+
+asignaturaRouter.put('/:grupo/:horario', async (req: Request, res: Response) => {
+    const grupo: string = req.params.grupo;
+    const horario: string = req.params.horario;
+    const updatedAsignatura: Asignatura = req.body;
+
+    asignaturaController.updateAsignatura(grupo, horario, updatedAsignatura, (err: Error | null, affectedRows?: number) => {
+        if (err) {
+            return res.status(500).json({ message: err.message });
+        }
+
+        if (affectedRows === 0) {
+            return res.status(404).json({ message: 'Asignatura no encontrada' });
+        }
+
+        res.status(200).json({ message: 'Asignatura actualizada' });
+    });
+});
+
+export default asignaturaRouter;
+
 
 // asignaturaRouter.put('/:cod_e/estado', async (req: Request, res: Response) => {
 //     const cod_e = parseInt(req.params.cod_e); 

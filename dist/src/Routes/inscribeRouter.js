@@ -35,56 +35,40 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.asignaturaRouter = void 0;
+exports.inscribeRouter = void 0;
 const express_1 = __importDefault(require("express"));
-const asignaturaController = __importStar(require("../Controllers/asignatura"));
-const asignaturaRouter = express_1.default.Router();
-exports.asignaturaRouter = asignaturaRouter;
-asignaturaRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const newAsignatura = req.body;
-    console.log(newAsignatura);
-    asignaturaController.create(newAsignatura, (err, asigID) => {
+const inscribeController = __importStar(require("../Controllers/inscribe"));
+const inscribeRouter = express_1.default.Router();
+exports.inscribeRouter = inscribeRouter;
+inscribeRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const newinscribe = req.body;
+    console.log(newinscribe);
+    inscribeController.create(newinscribe, (err, asigID) => {
         if (err) {
             return res.status(500).json({ 'message': err.message });
         }
         res.status(201).json({ 'asigdId': asigID });
     });
 }));
-asignaturaRouter.get('/', (req, res) => {
-    asignaturaController.getAsignaturas((err, Asignatura) => {
+inscribeRouter.get('/', (req, res) => {
+    inscribeController.getinscribe((err, inscribe) => {
         if (err) {
             return res.status(500).json({ message: err.message });
         }
-        res.status(200).json(Asignatura);
+        res.status(200).json(inscribe);
     });
 });
-asignaturaRouter.put('/:cod_a', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const cod_a = parseInt(req.params.cod_a);
-    const updatedAsignatura = req.body;
-    console.log(updatedAsignatura);
-    asignaturaController.update(cod_a, updatedAsignatura, (err, affectedRows) => {
+inscribeRouter.put('/:id_p', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id_p = parseInt(req.params.id_p);
+    const updatedinscribe = req.body;
+    console.log(updatedinscribe);
+    inscribeController.update(id_p, updatedinscribe, (err, affectedRows) => {
         if (err) {
             return res.status(500).json({ 'message': err.message });
         }
         if (affectedRows === 0) {
-            return res.status(404).json({ 'message': 'Asignatura no encontrada' });
+            return res.status(404).json({ 'message': 'inscribe no encontrada' });
         }
-        res.status(200).json({ 'message': 'Asignatura actualizada' });
+        res.status(200).json({ 'message': 'inscribe actualizada' });
     });
 }));
-///////////////////////////////////////////////////////////Update asignaturas impartidas (grupo, horario) a traves de API
-asignaturaRouter.put('/:grupo/:horario', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const grupo = req.params.grupo;
-    const horario = req.params.horario;
-    const updatedAsignatura = req.body;
-    asignaturaController.updateAsignatura(grupo, horario, updatedAsignatura, (err, affectedRows) => {
-        if (err) {
-            return res.status(500).json({ message: err.message });
-        }
-        if (affectedRows === 0) {
-            return res.status(404).json({ message: 'Asignatura no encontrada' });
-        }
-        res.status(200).json({ message: 'Asignatura actualizada' });
-    });
-}));
-exports.default = asignaturaRouter;
